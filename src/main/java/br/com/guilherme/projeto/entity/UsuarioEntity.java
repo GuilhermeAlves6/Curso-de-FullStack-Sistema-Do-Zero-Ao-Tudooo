@@ -2,8 +2,9 @@ package br.com.guilherme.projeto.entity;
 
 import java.util.Objects;
 
-import org.springframework.boot.autoconfigure.web.WebProperties.Resources.Chain.Strategy;
+import org.springframework.beans.BeanUtils;
 
+import br.com.guilherme.projeto.dto.UsuarioDTO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -25,6 +26,20 @@ public class UsuarioEntity {
 	@Column(nullable = false, unique = true)
 	private String login;
 	
+	@Column(nullable = false)
+	private String senha;
+	
+	@Column(nullable = false)
+	private String email;
+	
+	public UsuarioEntity(UsuarioDTO usuario) {
+		BeanUtils.copyProperties(usuario, this);
+	}
+	
+	public UsuarioEntity() {
+		
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -65,9 +80,6 @@ public class UsuarioEntity {
 		this.email = email;
 	}
 
-	@Column(nullable = false)
-	private String senha;
-	
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
@@ -84,8 +96,9 @@ public class UsuarioEntity {
 		UsuarioEntity other = (UsuarioEntity) obj;
 		return Objects.equals(id, other.id);
 	}
-
-	@Column(nullable = false)
-	private String email;
-
+	
+	
+	
 }
+	
+	
