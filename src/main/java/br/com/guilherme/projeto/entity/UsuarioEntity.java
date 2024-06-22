@@ -1,5 +1,7 @@
 package br.com.guilherme.projeto.entity;
 
+import java.util.Objects;
+
 import org.springframework.boot.autoconfigure.web.WebProperties.Resources.Chain.Strategy;
 
 import jakarta.persistence.Column;
@@ -66,6 +68,23 @@ public class UsuarioEntity {
 	@Column(nullable = false)
 	private String senha;
 	
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		UsuarioEntity other = (UsuarioEntity) obj;
+		return Objects.equals(id, other.id);
+	}
+
 	@Column(nullable = false)
 	private String email;
 
