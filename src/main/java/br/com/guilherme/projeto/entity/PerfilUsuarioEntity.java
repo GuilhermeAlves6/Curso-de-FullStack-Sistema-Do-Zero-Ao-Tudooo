@@ -1,5 +1,8 @@
 package br.com.guilherme.projeto.entity;
 
+import org.springframework.beans.BeanUtils;
+
+import br.com.guilherme.projeto.dto.PerfilUsuarioDTO;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -13,23 +16,32 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "NPL_PERFIL_USUARIO")
+
 @Getter
 @Setter
 @NoArgsConstructor
 public class PerfilUsuarioEntity {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	
-	
+
 	@ManyToOne
 	@JoinColumn(name = "ID_USUARIO")
 	private UsuarioEntity usuario;
-	
-	
+
 	@ManyToOne
 	@JoinColumn(name = "ID_PERFIL")
 	private PerfilEntity perfil;
+
+	public PerfilUsuarioEntity(PerfilUsuarioDTO perfilUsuario) {
+		BeanUtils.copyProperties(perfilUsuario, this);
+		if (perfilUsuario != null && perfilUsuario.getUsuario() != null) {
+			this.usuario = new UsuarioEntity(perfilUsuario.getUsuario());
+		}
+		if (perfilUsuario != null && perfilUsuario.getPerfil() != null) {
+			this.perfil = new PerfilEntity(perfilUsuario.getPerfil());
+		}
+	}
 
 }
