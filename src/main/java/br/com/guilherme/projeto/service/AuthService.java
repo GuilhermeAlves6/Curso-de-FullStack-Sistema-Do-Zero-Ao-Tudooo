@@ -25,8 +25,7 @@ public class AuthService {
 
 		try {
 			// Cria mecanismo de credencial para o spring
-			UsernamePasswordAuthenticationToken userAuth = new UsernamePasswordAuthenticationToken(
-					AuthDto.getUsername(), AuthDto.getPassword());
+			UsernamePasswordAuthenticationToken userAuth = new UsernamePasswordAuthenticationToken(AuthDto.getUsername(), AuthDto.getPassword());
 
 			// Prepara mecanismo para autenticacao
 			Authentication authentication = authenticationManager.authenticate(userAuth);
@@ -35,9 +34,11 @@ public class AuthService {
 			UserDetailsImpl userAutenticate = (UserDetailsImpl) authentication.getPrincipal();
 			
 			
-			String token = jwtUtils.generateTokenFromUserDetailsImpl(userAutenticate);
+			String token = jwtUtils.generateTokenFromUserDetailsImpString(userAutenticate);
 			
-			AcessDTO acessDto = new AcessDTO(token);
+			AcessDTO accessDto = new AcessDTO(token);
+			
+			return accessDto;
 
 		} catch (BadCredentialsException e) {
 			// TODO LOGIN OU SENHA INVALIDO
