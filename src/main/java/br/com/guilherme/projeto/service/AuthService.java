@@ -14,32 +14,33 @@ import br.com.guilherme.projeto.security.jwt.JwtUtils;
 @Service
 public class AuthService {
 
+	
 	@Autowired
 	private AuthenticationManager authenticationManager;
 	
 	@Autowired
 	private JwtUtils jwtUtils;
 
-	@Autowired
-	public AcessDTO login(AuthenticationDTO AuthDto) {
+	public AcessDTO login(AuthenticationDTO authDto) {
 
 		try {
 			// Cria mecanismo de credencial para o spring
-			UsernamePasswordAuthenticationToken userAuth = new UsernamePasswordAuthenticationToken(AuthDto.getUsername(), AuthDto.getPassword());
+			UsernamePasswordAuthenticationToken userAuthenticationToken = new UsernamePasswordAuthenticationToken(
+					authDto.getUsername(), authDto.getPassword());
 
 			// Prepara mecanismo para autenticacao
-			Authentication authentication = authenticationManager.authenticate(userAuth);
+			Authentication authentication = authenticationManager.authenticate(userAuthenticationToken);
 
 			// Busca usuario logado
-			UserDetailsImpl userAutenticate = (UserDetailsImpl) authentication.getPrincipal();
+			UserDetailsImpl userAuthenticate = (UserDetailsImpl) authentication.getPrincipal();
 			
 			
-			String token = jwtUtils.generateTokenFromUserDetailsImpString(userAutenticate);
+			String token = jwtUtils.generateTokenFromUserDetailsImpl(userAuthenticate);
 			
 			AcessDTO accessDto = new AcessDTO(token);
 			
 			return accessDto;
-
+			
 		} catch (BadCredentialsException e) {
 			// TODO LOGIN OU SENHA INVALIDO
 		}

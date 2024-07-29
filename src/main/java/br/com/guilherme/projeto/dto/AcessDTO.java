@@ -1,11 +1,11 @@
 package br.com.guilherme.projeto.dto;
 
 public class AcessDTO {
-	
+
 	private String token;
-	
+
 	//TODO implementar retornar o usuario e liberacoes (authorities)
-	
+
 	public AcessDTO(String token) {
 		super();
 		this.token = token;
@@ -18,6 +18,9 @@ public class AcessDTO {
 	public void setToken(String token) {
 		this.token = token;
 	}
+
+
+	
 	
 	
 	

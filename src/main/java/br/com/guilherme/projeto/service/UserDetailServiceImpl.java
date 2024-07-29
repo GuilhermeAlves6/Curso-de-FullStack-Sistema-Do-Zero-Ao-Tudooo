@@ -11,15 +11,15 @@ import br.com.guilherme.projeto.repository.UsuarioRepository;
 
 
 @Service
-public class UserDetailServiceImpl implements UserDetailsService {
+public class UserDetailServiceImpl implements UserDetailsService{
+	
 	
 	@Autowired
-	private UsuarioRepository usuarioRepository;
+	private UsuarioRepository usuarioRepository; 
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		UsuarioEntity usuario = usuarioRepository.findByLogin(username).get();
 		return UserDetailsImpl.build(usuario);
 	}
-
 }

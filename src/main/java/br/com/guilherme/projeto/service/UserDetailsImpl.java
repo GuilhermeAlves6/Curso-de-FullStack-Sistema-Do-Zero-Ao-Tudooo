@@ -1,9 +1,12 @@
 package br.com.guilherme.projeto.service;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import br.com.guilherme.projeto.entity.UsuarioEntity;
 
 public class UserDetailsImpl implements UserDetails {
 	
@@ -16,6 +19,28 @@ public class UserDetailsImpl implements UserDetails {
 	private String email;
 	
 	private String password;
+	
+	
+	
+	public UserDetailsImpl(Long id, String name, String username, String email,
+			Collection<? extends GrantedAuthority> authorities) {
+		super();
+		this.id = id;
+		this.name = name;
+		Username = username;
+		this.email = email;
+		this.authorities = authorities;
+	}
+
+	public static UserDetailsImpl build(UsuarioEntity usuario) {
+		
+		return new UserDetailsImpl(
+				usuario.getId(), 
+				usuario.getNome(), 
+				usuario.getLogin(), 
+				usuario.getEmail(), 
+				new ArrayList<>());
+	}
 	
 	private Collection<? extends GrantedAuthority> authorities;
 
@@ -31,7 +56,7 @@ public class UserDetailsImpl implements UserDetails {
 
 	@Override
 	public String getUsername() {
-		return username;
+		return Username;
 	}
 
 	@Override
