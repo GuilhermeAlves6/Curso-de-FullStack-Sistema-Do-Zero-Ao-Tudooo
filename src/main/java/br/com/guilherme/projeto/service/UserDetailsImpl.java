@@ -22,12 +22,13 @@ public class UserDetailsImpl implements UserDetails {
 	
 	
 	
-	public UserDetailsImpl(Long id, String name, String username, String email,
+	public UserDetailsImpl(Long id, String name, String username, String password,String email,
 			Collection<? extends GrantedAuthority> authorities) {
 		super();
 		this.id = id;
 		this.name = name;
 		Username = username;
+		this.password = password;
 		this.email = email;
 		this.authorities = authorities;
 	}
@@ -38,6 +39,7 @@ public class UserDetailsImpl implements UserDetails {
 				usuario.getId(), 
 				usuario.getNome(), 
 				usuario.getLogin(), 
+				usuario.getSenha(),
 				usuario.getEmail(), 
 				new ArrayList<>());
 	}
