@@ -12,8 +12,10 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import br.com.guilherme.projeto.security.jwt.AuthEntryPointJwt;
+import br.com.guilherme.projeto.security.jwt.AuthFilterToken;
 
 @Configuration
 @EnableMethodSecurity
@@ -32,6 +34,11 @@ public class WebSecurityConfig {
 			throws Exception {
 		return authenticationConfiguration.getAuthenticationManager();
 	}
+	
+	@Bean
+	public AuthFilterToken authFilterToken() {
+		return new AuthFilterToken();
+	}
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
@@ -42,6 +49,8 @@ public class WebSecurityConfig {
 				.authorizeHttpRequests(auth -> auth.requestMatchers("/auth/**").permitAll()
 						                        .requestMatchers("/usuario/**").permitAll()
 				                                .anyRequest().authenticated());
+		
+		http.addFilterBefore(authFilterToken(), UsernamePasswordAuthenticationFilter.class);
 		
 		return http.build();
 	}
