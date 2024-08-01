@@ -3,6 +3,7 @@ package br.com.guilherme.projeto.dto;
 import org.springframework.beans.BeanUtils;
 
 import br.com.guilherme.projeto.entity.UsuarioEntity;
+import br.com.guilherme.projeto.entity.enums.TipoSituacaoUsuario;
 
 public class UsuarioDTO {
 	
@@ -11,6 +12,7 @@ public class UsuarioDTO {
 	private String login;
 	private String senha;
 	private String email;
+	private TipoSituacaoUsuario situacao;
 	
 	public UsuarioDTO(UsuarioEntity usuario) {
 		BeanUtils.copyProperties(usuario, this);
@@ -50,6 +52,16 @@ public class UsuarioDTO {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
+	public TipoSituacaoUsuario getSituacao() {
+		return situacao;
+	}
+
+	public void setSituacao(TipoSituacaoUsuario situacao) {
+		this.situacao = situacao;
+	}
+	
+	
 
 
 }
