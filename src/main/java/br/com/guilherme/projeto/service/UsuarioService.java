@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.guilherme.projeto.dto.UsuarioDTO;
 import br.com.guilherme.projeto.entity.UsuarioEntity;
+import br.com.guilherme.projeto.entity.enums.TipoSituacaoUsuario;
 import br.com.guilherme.projeto.repository.UsuarioRepository;
 
 @Service
@@ -29,6 +30,21 @@ public class UsuarioService {
 		usuarioEntity.setSenha(passwordEncoder.encode(usuario.getSenha()));
 		usuarioRepository.save(usuarioEntity);
 	}
+	
+	public void inserirNovoUsuario(UsuarioDTO usuario) {
+		UsuarioEntity usuarioEntity = new UsuarioEntity(usuario);
+		usuarioEntity.setSenha(passwordEncoder.encode(usuario.getSenha()));
+		usuarioEntity.setSituacao(TipoSituacaoUsuario.PENDENTE);
+		usuarioEntity.setId(null);
+		
+		
+		//TODO - Enviar um email para verificar a conta
+		
+		
+		usuarioRepository.save(usuarioEntity);
+	}
+		
+	
 	
 	public UsuarioDTO alterar(UsuarioDTO usuario) {
 		UsuarioEntity usuarioEntity = new UsuarioEntity(usuario);
