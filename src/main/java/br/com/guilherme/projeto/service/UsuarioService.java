@@ -1,6 +1,8 @@
 package br.com.guilherme.projeto.service;
 
+import java.time.Instant;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -8,14 +10,19 @@ import org.springframework.stereotype.Service;
 
 import br.com.guilherme.projeto.dto.UsuarioDTO;
 import br.com.guilherme.projeto.entity.UsuarioEntity;
+import br.com.guilherme.projeto.entity.UsuarioVerificadorEntity;
 import br.com.guilherme.projeto.entity.enums.TipoSituacaoUsuario;
 import br.com.guilherme.projeto.repository.UsuarioRepository;
+import br.com.guilherme.projeto.repository.UsuarioVerificadorRepository;
 
 @Service
 public class UsuarioService {
 	
 	@Autowired
 	private UsuarioRepository usuarioRepository;
+	
+	@Autowired
+	private UsuarioVerificadorRepository usuarioVerificadorRepository;
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
@@ -39,15 +46,21 @@ public class UsuarioService {
 		usuarioEntity.setSenha(passwordEncoder.encode(usuario.getSenha()));
 		usuarioEntity.setSituacao(TipoSituacaoUsuario.PENDENTE);
 		usuarioEntity.setId(null);
+		usuarioRepository.save(usuarioEntity);
+		
+		UsuarioVerificadorEntity verificador = new UsuarioVerificadorEntity();
+		verificador.setUsuario(usuarioEntity);
+		verificador.setUuid(UUID.randomUUID());
+		verificador.setDataExpiracao(Instant.now().plusMillis(900000));
+		usuarioVerificadorRepository.save(verificador);
+		
 		
 		
 		//TODO - Enviar um email para verificar a conta
 		emailService.enviarEmailTexto(usuario.getEmail(), 
 				"Novo usuário cadastrado", 
-				"Você está recebendo um email de cadastro");
-		
-		
-		usuarioRepository.save(usuarioEntity);
+				"Você está recebendo um email de cadastro o número para validação é " + verificador.getUuid());
+
 	}
 		
 	
